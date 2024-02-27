@@ -1,6 +1,7 @@
+/* eslint-disable indent */
 import { Answer } from "./interfaces/answer";
 import { Question, QuestionType } from "./interfaces/question";
-import { makeBlankQuestion } from "./objects";
+import { duplicateQuestion, makeBlankQuestion } from "./objects";
 
 /**
  * Consumes an array of questions and returns a new array with only the questions
@@ -223,7 +224,9 @@ export function editOption(
                 targetOptionIndex === -1
                     ? [...question.options, newOption]
                     : [
+                          // eslint-disable-next-line prettier/prettier
                           ...question.options.slice(0, targetOptionIndex),
+                          // eslint-disable-next-line prettier/prettier
                           newOption,
                           ...question.options.slice(targetOptionIndex + 1)
                       ];
@@ -244,5 +247,11 @@ export function duplicateQuestionInArray(
     targetId: number,
     newId: number
 ): Question[] {
-    return [];
+    return questions.reduce((dupe: Question[], question: Question) => {
+        if (question.id === targetId) {
+            const duplicate = duplicateQuestion(newId, question);
+            return [...dupe, question, duplicate];
+        }
+        return [...dupe, question];
+    }, []);
 }
