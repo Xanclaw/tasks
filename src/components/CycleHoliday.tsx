@@ -10,6 +10,7 @@ export type Holiday =
 
 export function CycleHoliday() {
     const [holiday, setHoliday] = useState<Holiday>("Christmas:🎄");
+
     const alphabet = () => {
         if (holiday === "Christmas:🎄") {
             setHoliday("Fourth of July: 🎆");
@@ -38,9 +39,9 @@ export function CycleHoliday() {
     };
     return (
         <div>
-            <body>{holiday}</body>
-            <Button onClick={alphabet}>Advance by Alphabet</Button>;
-            <Button onClick={year}>Advance by Year</Button>;
+            <Button onClick={alphabet}>Advance by Alphabet</Button>
+            <Button onClick={year}>Advance by Year</Button>
+            <div>Holiday: {holiday}</div>
         </div>
     );
 }
