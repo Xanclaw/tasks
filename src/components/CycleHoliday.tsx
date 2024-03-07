@@ -1,64 +1,47 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 
-const holidays = [
-    { name: "Christmas", emoji: "🎄" },
-    { name: "Valentines", emoji: "💖" },
-    { name: "Fourth of July", emoji: "🎆" },
-    { name: "Halloween", emoji: "🎃" },
-    { name: "Thanksgiving", emoji: "🦃" }
-];
-
-const getNextHolidayAlphabetically = (currentHoliday: string) => {
-    const sortedHolidays = [...holidays].sort((a, b) =>
-        a.name.localeCompare(b.name)
-    );
-
-    const currentIndex = sortedHolidays.findIndex(
-        (holiday) => holiday.name === currentHoliday
-    );
-
-    const nextIndex = (currentIndex + 1) % sortedHolidays.length;
-    return sortedHolidays[nextIndex].name;
-};
-
-const getNextHolidayByYear = (currentHoliday: string) => {
-    const sortedHolidays = [...holidays].sort(
-        (a, b) => holidays.indexOf(a) - holidays.indexOf(b)
-    );
-
-    const currentIndex = sortedHolidays.findIndex(
-        (holiday) => holiday.name === currentHoliday
-    );
-
-    const nextIndex = (currentIndex + 1) % sortedHolidays.length;
-    return sortedHolidays[nextIndex].name;
-};
+export type Holiday =
+    | "Christmas:🎄"
+    | "Valentines: 💖"
+    | "Fourth of July: 🎆"
+    | "Halloween: 🎃"
+    | "Thanksgiving: 🦃";
 
 export function CycleHoliday() {
-    const [currentHoliday, setCurrentHoliday] = useState(holidays[0].name);
+    const [holiday, setHoliday] = useState<Holiday>("Christmas:🎄");
 
-    const handleAdvanceAlphabetically = () => {
-        setCurrentHoliday(getNextHolidayAlphabetically(currentHoliday));
+    const alphabet = () => {
+        if (holiday === "Christmas:🎄") {
+            setHoliday("Fourth of July: 🎆");
+        } else if (holiday === "Fourth of July: 🎆") {
+            setHoliday("Halloween: 🎃");
+        } else if (holiday === "Halloween: 🎃") {
+            setHoliday("Thanksgiving: 🦃");
+        } else if (holiday === "Thanksgiving: 🦃") {
+            setHoliday("Valentines: 💖");
+        } else {
+            setHoliday("Christmas:🎄");
+        }
     };
-
-    const handleAdvanceByYear = () => {
-        setCurrentHoliday(getNextHolidayByYear(currentHoliday));
+    const year = () => {
+        if (holiday === "Christmas:🎄") {
+            setHoliday("Valentines: 💖");
+        } else if (holiday === "Valentines: 💖") {
+            setHoliday("Fourth of July: 🎆");
+        } else if (holiday === "Fourth of July: 🎆") {
+            setHoliday("Halloween: 🎃");
+        } else if (holiday === "Halloween: 🎃") {
+            setHoliday("Thanksgiving: 🦃");
+        } else if (holiday === "Thanksgiving: 🦃") {
+            setHoliday("Christmas:🎄");
+        }
     };
-
     return (
         <div>
-            <div>
-                Holiday:{" "}
-                {
-                    holidays.find((holiday) => holiday.name === currentHoliday)
-                        ?.emoji
-                }
-            </div>
-            <Button onClick={handleAdvanceAlphabetically}>
-                Advance by Alphabet
-            </Button>
-            <Button onClick={handleAdvanceByYear}>Advance by Year</Button>
+            <Button onClick={alphabet}>Advance by Alphabet</Button>
+            <Button onClick={year}>Advance by Year</Button>
+            <div>Holiday: {holiday}</div>
         </div>
     );
 }
